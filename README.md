@@ -72,6 +72,29 @@ deactivate
 ```
 
 
+## Quick Start
+```bash
+python3 -m venv <venv_name>
+
+# run venv
+source <venv_name>/bin/activate
+pip install --upgrade pip
+# pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org requests
+pip install requests
+
+# start provider
+# python -m example/provider/provider.py
+python -m example.provider.provider
+
+# start consumer
+# python -m example/consumer/consumer.py
+python -m example.consumer.consumer
+
+# exit venv
+deactivate
+```
+
+
 ## example
 ```bash
 (pyrpc) limengjie@limengjiedeMacBook-Pro pyrpc % python -m example.provider.provider

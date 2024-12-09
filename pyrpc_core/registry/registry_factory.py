@@ -1,5 +1,6 @@
 from typing import Dict
 from .memory_registry import MemoryRegistry
+from .redis_registry import RedisRegistry
 from .registry import Registry
 from .registry_config import RegistryConfig
 
@@ -10,7 +11,8 @@ class RegistryFactory:
 
     # reflection to get all registry types
     _registry_types: Dict[str, type] = {
-        'memory': MemoryRegistry
+        'memory': MemoryRegistry,
+        'redis': RedisRegistry
     }
 
     @classmethod

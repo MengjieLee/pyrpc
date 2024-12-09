@@ -49,4 +49,8 @@ class RpcServer:
     def serve_forever(self):
         print(f'Server running on {self.server.server_address}')
         self.server.serve_forever()
-    
+
+    def shutdown(self):
+        self.server.shutdown()
+        self.server.server_close()
+        print('Server shutdown')

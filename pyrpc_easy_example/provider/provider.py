@@ -1,7 +1,7 @@
-from example.common.model import User
-from example.common.service import UserService
-from pyrpc.registry import LocalRegistry
-from pyrpc.server import RpcServer
+from pyrpc_easy_example.common.model import User
+from pyrpc_easy_example.common.service import UserService
+from pyrpc_easy.registry import LocalRegistry
+from pyrpc_easy.server import RpcServer
 
 
 class UserServiceImpl(UserService):

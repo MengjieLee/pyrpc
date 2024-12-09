@@ -27,7 +27,7 @@ pyrpc is a RPC framework established by Python.
 ## Directory Structure
 ```bash
 pyrpc/
-├── example/
+├── pyrpc_easy_example/
 │   ├── common/
 │   │   ├── __init__.py
 │   │   ├── model.py
@@ -38,7 +38,7 @@ pyrpc/
 │   └── provider/
 │       ├── __init__.py
 │       └── provider.py
-├── pyrpc/
+├── pyrpc-easy/
 │   ├── __init__.py
 │   ├── model.py
 │   ├── proxy.py
@@ -56,40 +56,16 @@ python3 -m venv <venv_name>
 # run venv
 source <venv_name>/bin/activate
 pip install --upgrade pip
-# pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org requests
 pip install requests
 
 # start provider
-# python -m example/provider/provider.py
-python -m example.provider.provider
+python -m pyrpc_easy_example.provider.provider
 
 # start consumer
-# python -m example/consumer/consumer.py
-python -m example.consumer.consumer
+python -m pyrpc_easy_example.consumer.consumer
 
-# exit venv
-deactivate
-```
-
-
-## Quick Start
-```bash
-python3 -m venv <venv_name>
-
-# run venv
-source <venv_name>/bin/activate
-pip install --upgrade pip
-# pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org requests
-pip install requests
-
-# start provider
-# python -m example/provider/provider.py
-python -m example.provider.provider
-
-# start consumer
-# python -m example/consumer/consumer.py
-python -m example.consumer.consumer
-
+# clear pycache
+find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || find . -name "*.pyc" -delete
 # exit venv
 deactivate
 ```
@@ -97,10 +73,10 @@ deactivate
 
 ## example
 ```bash
-(pyrpc) limengjie@limengjiedeMacBook-Pro pyrpc % python -m example.provider.provider
+(pyrpc) limengjie@limengjiedeMacBook-Pro pyrpc % python -m pyrpc_easy_example.provider.provider
 Server running on ('127.0.0.1', 8080)
 127.0.0.1 - - [09/Dec/2024 00:09:45] "POST / HTTP/1.1" 200 -
 
-(pyrpc) limengjie@limengjiedeMacBook-Pro pyrpc % python -m example.consumer.consumer
+(pyrpc) limengjie@limengjiedeMacBook-Pro pyrpc % python -m pyrpc_easy_example.consumer.consumer
 Response: Hello, MJ!
 ```

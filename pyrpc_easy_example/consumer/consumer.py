@@ -1,8 +1,8 @@
 import requests
-from pyrpc.serializer import PickleSerializer
-from example.common.model import User
-from pyrpc.model import RpcRequest, RpcResponse
-from example.common.service import UserService
+from pyrpc_easy.serializer import PickleSerializer
+from pyrpc_easy_example.common.model import User
+from pyrpc_easy.model import RpcRequest, RpcResponse
+from pyrpc_easy_example.common.service import UserService
 
 
 def main():

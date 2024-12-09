@@ -8,9 +8,8 @@ class ProtocolConstants:
     RESPONSE_TYPE = 2
 
     # Serializer type
-    SERIALIZER_JDK = 1
-    SERIALIZER_JSON = 2
-    SERIALIZER_KRYO = 3
+    SERIALIZER_JSON = 1
+    SERIALIZER_YAML = 2
 
     # Compress type
     COMPRESSOR_NONE = 0

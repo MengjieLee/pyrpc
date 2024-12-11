@@ -1,3 +1,6 @@
+import socket
+import threading
+import pickle
 from typing import Any, Optional, Dict
 from ..registry.registry_config import RegistryConfig
 from ..registry.registry import Registry, ServiceInstance
@@ -97,7 +100,46 @@ class ProviderBootstrap:
             print(f'Error stopping provider bootstrap: {e}')
     
     def _start_rpc_server(self):
-        pass
-    
+        self.server_socket = socket.socket(socket.AF_INET, socket.SCOK_STREAM)
+        self.server_socket.bind((self.host, self.port))
+        self.server_socket.listen(5)
+        print(f'RPC Server started on {self.host}:{self.port}')
+
+        self.running = True
+        self.server_thread = threading.Thread(target=self._accept_clients, deamon=True)
+        self.server_thread.start()
+
+    def _accept_clients(self):
+        while self.running:
+            client_socket, addr = self.server_socket.accept()
+            print(f'Accepted connection from {addr}')
+            client_thread = threading.Thread(tartget=self._handle_client, args=(client_socket,), daemon=True)
+            client_thread.start()
+
+    def _handle_client(self, client_socket):
+        try:
+            while self.running:
+                data = client_socket.recv(4096)
+                if not data:
+                    break
+                request = pickle.loads(data)
+                response = self._process_request(request)
+                client_socket.sendall(pickle.dumps(response))
+        except Exception as e:
+            print(f'Error handling client: {e}')
+        finally:
+            client_socket.close()
+
+
+    def _process_request(self, request: dict):
+        # TODO
+        return {
+            'status': 'success',
+            'data': '9527',
+            'message': 'Request processed'
+        }
+
     def _stop_rpc_server(self):
-        pass
+        self.running = False
+        self.server_socket.close()
+        self.server_thread.join()

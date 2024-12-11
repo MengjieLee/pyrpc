@@ -98,6 +98,23 @@ class ConsumerBootstrap:
                 self._bootstrap = bootstrap
                 self._consumer = consumer
 
+            def __getattr__(self, method_name):
+                def invoke(*args, **kwargs):
+                    instance = self._bootstrap._get_service_instance(self._consumer.service_name)
+                    if not instance:
+                        raise RuntimeError(f'No available instance for service: {self._consumer.service_name}')
+                    
+                    request = {
+                        'service_name': self._consumer.service_name,
+                        'method_name': method_name,
+                        'parameter_types': [type(arg) for arg in args],
+                        'args': args,
+                        'kwargs': kwargs
+                    }
+
+                    return self._bootstrap._invoke_remote(instance, request)
+                return invoke
+
         for method_name, method in service_methods:
             def create_proxy_method(name):
                 def proxy_method(*args, **kwargs):
@@ -120,7 +137,7 @@ class ConsumerBootstrap:
             setattr(ServiceProxy, method_name, create_proxy_method(method_name))
         return ServiceProxy(self, consumer)
 
-    def  _invoke_remote(self, instance: ServiceInstance, request: dict) -> Any:
+    def _invoke_remote(self, instance: ServiceInstance, request: dict) -> Any:
         """
         Invoke remote service
         """
@@ -179,3 +196,10 @@ class ConsumerBootstrap:
         except Exception as e:
             print(f'Error invoking remote service: {e}')
             raise RuntimeError(f'Failed to invoke remote service: {e}')
+
+
+    def _get_service_instance(self, service_name: str) -> Optional[ServiceInstance]:
+        """
+        Get service instance
+        """
+        return self._service_instance.get(service_name)

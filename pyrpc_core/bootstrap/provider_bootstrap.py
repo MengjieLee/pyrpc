@@ -130,14 +130,38 @@ class ProviderBootstrap:
         finally:
             client_socket.close()
 
-
     def _process_request(self, request: dict):
-        # TODO
-        return {
-            'status': 'success',
-            'data': '9527',
-            'message': 'Request processed'
-        }
+        try:
+            service_name = request.get('service_name')
+            method_name = request.get('method_name')
+            args = request.get('args', [])
+            kwargs = request.get('kwargs', {})
+
+            provider = self.providers.get(service_name)
+            if not provider:
+                return {
+                    'status': 'error',
+                    'message': f'Service not found: {service_name}'
+                }
+            
+            method = getattr(provider.service_instance, method_name, None)
+            if not method:
+                return {
+                    'status': 'error',
+                    'message': f'Method not found: {method_name}'
+                }
+
+            result = method(*args, **kwargs)
+            return {
+                'status': 'success',
+                'data': result
+            }
+
+        except Exception as e:
+            return {
+                'status': 'error',
+                'message': str(e)
+            }
 
     def _stop_rpc_server(self):
         self.running = False

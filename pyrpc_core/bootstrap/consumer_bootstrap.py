@@ -31,6 +31,7 @@ class ConsumerBootstrap:
     """
     def __init__(self):
         self.consumers: Dict[str, ServiceConsumer] = {}
+        self._service_instance: Dict[str, list[ServiceInstance]] = {}
     
     def add_service(self,
                     service_name: str,
@@ -196,7 +197,6 @@ class ConsumerBootstrap:
         except Exception as e:
             print(f'Error invoking remote service: {e}')
             raise RuntimeError(f'Failed to invoke remote service: {e}')
-
 
     def _get_service_instance(self, service_name: str) -> Optional[ServiceInstance]:
         """

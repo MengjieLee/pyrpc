@@ -18,8 +18,9 @@ class MemoryRegistry(Registry):
         service_name = service_instance.service_name
         if service_name not in self._services:
             self._services[service_name] = set()
-        self._services[service_name].add(service_name)
-        self._notify_listeners(service_name)            
+        self._services[service_name].add(service_instance)
+        self._notify_listeners(service_name)
+        return True
     
     def unregister(self, service_instance: ServiceInstance) -> bool:
         service_name = service_instance.service_name

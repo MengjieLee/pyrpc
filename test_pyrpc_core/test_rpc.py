@@ -2,8 +2,7 @@ import pytest
 from pyrpc_core_example_common.model import User
 from pyrpc_core_example_common.service.user_service import UserService
 from pyrpc_core.registry import RegistryConfig
-from pyrpc_core_example_provider.provider_example import ProviderBootstrap
-from pyrpc_core_example_consumer.consumer_example import ConsumerBootstrap
+from pyrpc_core.bootstrap import ProviderBootstrap, ConsumerBootstrap
 
 class UserServiceImpl(UserService):
     def __init__(self):
